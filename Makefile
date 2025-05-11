@@ -1,5 +1,3 @@
-OS = Mac
-
 # indicate the Hardware Image file
 HDA_IMG = hdc-0.11.img
 
@@ -42,7 +40,7 @@ LIBS	=lib/lib.a
 .c.o:
 	@$(CC) $(CFLAGS) -c -o $*.o $<
 
-all:	Image	
+all: Image
 
 Image: boot/bootsect boot/setup tools/system
 	@cp -f tools/system system.tmp
@@ -134,11 +132,10 @@ tags:
 cscope:
 	@cscope -Rbkq
 
-start:
+qemu: Image
 	@qemu-system-x86_64 -m 16M -boot a -fda Image -hda $(HDA_IMG)
 
-debug:
-	@echo $(OS)
+qemu-gdb: Image
 	@qemu-system-x86_64 -m 16M -boot a -fda Image -hda $(HDA_IMG) -s -S
 
 bochs-debug:
@@ -173,8 +170,8 @@ help:
 	@echo ""
 	@echo "Usage:"
 	@echo "     make --generate a kernel floppy Image with a fs on hda1"
-	@echo "     make start -- start the kernel in qemu"
-	@echo "     make debug -- debug the kernel in qemu & gdb at port 1234"
+	@echo "     make qemu -- start the kernel in qemu"
+	@echo "     make qemu-gdb -- debug the kernel in qemu & gdb at port 1234"
 	@echo "     make disk  -- generate a kernel Image & copy it to floppy"
 	@echo "     make cscope -- genereate the cscope index databases"
 	@echo "     make tags -- generate the tag file"
