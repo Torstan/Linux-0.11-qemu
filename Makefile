@@ -133,10 +133,10 @@ cscope:
 	@cscope -Rbkq
 
 qemu: Image
-	@qemu-system-x86_64 -m 16M -boot a -fda Image -hda $(HDA_IMG)
+	@qemu-system-i386 -m 16M -boot a -fda Image -hda $(HDA_IMG) -cpu qemu32
 
 qemu-gdb: Image
-	@qemu-system-x86_64 -m 16M -boot a -fda Image -hda $(HDA_IMG) -s -S
+	@qemu-system-i386 -m 16M -boot a -fda Image -hda $(HDA_IMG) -s -S -cpu qemu32
 
 bochs-debug:
 	@$(BOCHS) -q -f tools/bochs/bochsrc/bochsrc-hd-dbg.bxrc	
